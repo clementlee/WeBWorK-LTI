@@ -1,0 +1,117 @@
+{{#if single_tool}}
+    <span class='span2 app'></span>
+{{/if}}
+<span class='span{{#if single_tool}}8{{else}}3{{/if}} app {{#if single_tool}}single_app{{/if}}'>
+    <div class='header'>
+        <div class='icon'>
+            <a href='/index.html?tool={{id}}'>
+                {{#if single_tool }}
+                    <img src='{{big_image_url}}' alt=''/>
+                {{else}}
+                    <img src='{{image_url}}' alt=''/>
+                {{/if}}
+            </a>
+        </div>
+        <h3>
+            <a href='/index.html?tool={{id}}'>{{name}}</a>
+        </h3>
+        <div class='rating'>
+            {{#if single_tool}}
+                <div class='rating_summary'>
+                    {{#if ratings_count}}
+                        {{stars avg_rating}} {{ratings_count}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/comments.png'/> {{comments_count}}
+                    {{else}}
+                        No Ratings
+                    {{/if}}
+                </div>
+            {{/if}}
+            {{#if show_votes}}
+                <div style='width: 55px;' class='voter'><a href='https://twitter.com/share' class='twitter-share-button' data-lang='en' data-count='vertical' data-url='{{refUrl}}' data-text='LTI Tool: {{name}}'>Tweet</a></div>
+                <div class='voter fb-like' data-send='false' data-layout='box_count' data-width='55' data-show-faces='false' data-href='{{refUrl}}' style='width: 55px;'></div>
+                <div style='padding-top: 1px; margin-right: 7px;' class='voter'><div class='g-plusone' data-annotation='bubble' data-size='tall' data-width='55' data-href='{{refUrl}}'></div></div>
+                <div style='clear: both;'></div>
+            {{/if}}
+        </div>
+        <div class='description'>
+            {{#if new }}
+                <span class='label label-important'>NEW</span>&nbsp;
+            {{/if}}
+            {{desc}}
+        </div>
+        {{#unless single_tool}}
+            <div class='ratings_on_hover'>
+                {{#if ratings_count}}
+                    {{stars avg_rating}} {{ratings_count}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/comments.png'/> {{comments_count}}
+                {{else}}
+                    &nbsp;
+                {{/if}}
+            </div>
+        {{/unless}}
+    </div>
+    {{#if config_details}}
+        <div class='config alert alert-info'>
+        {{#if single_tool}}
+            {{#if has_config_url}}
+                {{#each config_options}}
+                    {{#if_eql type val="checkbox"}}
+                        <div class='form-horizontal'><label><input style='margin: -4px 3px 0 0;' type='checkbox' class='config_option' name='{{name}}' value='{{value}}'/> {{description}}</label></div>
+                    {{else}}
+                        <div class='form-horizontal'><label>{{description}}: <input type='text' class='config_option' name='{{name}}' value='{{value}}'/></label></div>
+                    {{/if_eql}}
+                    <br/>
+                {{/each}}
+                {{#if config_urls}}
+                    {{#each config_urls}}
+                        <label>{{description}}: <input type='text' title='copy this URL and paste it into the tool configuration in your LMS' class='config_field' value='{{full_url url}}'/></label>
+                    {{/each}}
+                {{else}}
+                    <label>configuration url: <input type='text' title='copy this URL and paste it into the tool configuration in your LMS' class='config_field' value='{{full_url config_url}}'/></label>
+                {{/if}}
+            {{else}}
+                {{#if config_dir}}
+                    {{config_dir}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        {{#if preview}}
+            {{#if single_tool}}
+                <a id='preview' class='btn btn-primary' href='#preview'>Preview</a>
+            {{/if}}
+        {{/if}}
+        {{#if extensions_or_preview}}
+            <div class='extensions'>
+                {{#if single_tool}}
+                    <span class='label label-info'>preview</span>
+                {{else}}
+                    <a href="/index.html?tool={{id}}#preview">
+                        <span class='label label-info'>preview</span></a>
+                {{/if}}
+                {{extensions_list extensions}}
+            </div>
+        {{/if}}
+        </div>
+    {{/if}}
+    {{#if single_tool}}
+        <a name="preview"></a>
+        <div class='ratings'>
+            {{stars avg_rating}} {{ratings_count}}
+            {{#if comments_count}}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/comments.png'/> {{comments_count}}
+            {{/if}}
+            <form id='add_rating' style="display: none;">
+                <input id="rating_star" type="hidden" name="rating" value=""/>
+                <textarea id="rating_comments" placeholder="Type any additional comments here" style="width: 300px; height: 50px;"></textarea><br/>
+                <button type='submit' class='btn btn-primary'>Submit Comments</button>
+                <button type='button' class='bnt btn-cancel'>No Comment</button>
+            </form>
+            {{#if comments_count}}
+                <h3>Recent Comments</h3>
+                <div class='comments'>
+                </div>
+            {{/if}}
+        </div>
+    {{/if}}
+</span>
+{{#if single_tool}}
+    <span class='span2 app'></span>
+{{/if}}
