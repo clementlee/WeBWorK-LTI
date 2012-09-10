@@ -698,5 +698,53 @@ sub print_keys {
 	my $requestHash = \%request_hash;
 }
 
+sub loop_through_user {
+	my ($self) = @_;
+	my $r = $self->{r};
+	my $user_id = $self->{user_id};
+	my $User = $db->getUser($user_id);
+	
+	#turn $User into $username
+	my @setIDs = sort(($db->listUserSets($username), $db->listUserSetVersions($username) ));
+	foreach my $setName (@setIDs)   {
+		my @problems = $db->getAllMergedUserProblems( $username, $setName );
+		foreach my $problem (@problems) {
+			my $test = $problemRecord->problem_id;
+			my $num_correct   = $problemRecord->num_incorrect || 0;
+			my $num_incorrect = $problemRecord->num_correct   || 0;
+			my $num_total = $num_correct + $num_incorrect;
+			my $percentage = 1.0*$num_correct/$numtotal;
+			#get lis_result_sourcedid -- seems that it should be provided by LTI, but how?
+			#it should be passed over by application launch, but that shouldn't be possible since there's a *huge* number of results
+			#that WeBWorK stores.
+			my $xml = "	<?xml version = "1.0" encoding = "UTF-8"?>
+							<imsx_POXEnvelopeRequest xmlns = "http://www.imsglobal.org/lis/oms1p0/pox">
+							<imsx_POXHeader>
+								<imsx_POXRequestHeaderInfo>
+								<imsx_version>V1.0</imsx_version>
+								<imsx_messageIdentifier>12341234</imsx_messageIdentifier>
+								</imsx_POXRequestHeaderInfo>
+							</imsx_POXHeader>
+							<imsx_POXBody>
+								<replaceResultRequest>
+								<resultRecord>
+									<sourcedGUID>
+									<sourcedId>***lis_result_sourcedid***</sourcedId>
+									</sourcedGUID>
+									<result>
+									<resultScore>
+										<language>en</language>
+										<textString>" . $percentage. "</textString>
+									</resultScore>
+									</result>
+								</resultRecord>
+								</replaceResultRequest>
+							</imsx_POXBody>
+							</imsx_POXEnvelopeRequest>";
+		}
+	}
+}
+
+
 1;
 
