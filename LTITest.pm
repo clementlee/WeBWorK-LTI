@@ -715,10 +715,10 @@ sub loop_through_user {
 			my $num_total = $num_correct + $num_incorrect;
 			my $percentage = 1.0*$num_correct/$numtotal;
 			#get lis_result_sourcedid -- seems that it should be provided by LTI, but how?
-			#it should be passed over by application launch, but that shouldn't be possible since there's a *huge* number of results
+			#TODO: it should be passed over by application launch, but that shouldn't be possible since there's a *huge* number of results
 			#that WeBWorK stores.
-			my $xml = "	<?xml version = "1.0" encoding = "UTF-8"?>
-							<imsx_POXEnvelopeRequest xmlns = "http://www.imsglobal.org/lis/oms1p0/pox">
+			my $xml = "<?xml version = "1.0" encoding = "UTF-8"?>
+						<imsx_POXEnvelopeRequest xmlns = "http://www.imsglobal.org/lis/oms1p0/pox">
 							<imsx_POXHeader>
 								<imsx_POXRequestHeaderInfo>
 								<imsx_version>V1.0</imsx_version>
@@ -740,7 +740,8 @@ sub loop_through_user {
 								</resultRecord>
 								</replaceResultRequest>
 							</imsx_POXBody>
-							</imsx_POXEnvelopeRequest>";
+						</imsx_POXEnvelopeRequest>";
+			#TODO:send the XML
 		}
 	}
 }
